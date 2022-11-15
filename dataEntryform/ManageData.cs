@@ -19,13 +19,15 @@ namespace dataEntryform
         {
             InitializeComponent();
         }
-
         private void ManageData_Load(object sender, EventArgs e)
-        {
+        {   
+            //Getting registerInfo database's  infofTable table values
             var userinfo_details = registerInfoEntities.infoTables.Select
-               (q => new { Id = q.id, Full_Name = q.full_name, Address = q.address, Mobile_number = q.mobile_no, Email = q.email }).
+               (q => new { Id = q.id, Full_Name = q.full_name, 
+                   Address = q.address, Mobile_number = q.mobile_no, Email = q.email }).
                ToList();
 
+            //Placing userinfo_details values into grid view
             dgv_userinformation_display.DataSource = userinfo_details;
         }
 
@@ -45,14 +47,18 @@ namespace dataEntryform
 
         private void bt_delete_Click(object sender, EventArgs e)
         {
+            //selecting a row values
             var ed_id = (int)dgv_userinformation_display.SelectedRows[0].Cells["id"].Value;
 
+            //returns the first sequence values or error msg 
             var ed_userinfo = registerInfoEntities.infoTables.FirstOrDefault(q => q.id == ed_id);
 
+            //removing the selected row values
             registerInfoEntities.infoTables.Remove(ed_userinfo);
             registerInfoEntities.SaveChanges();
             MessageBox.Show("Sucessfully deleted.");
 
+            //refreshing the grid view 
             dgv_userinformation_display.Refresh();
 
         }

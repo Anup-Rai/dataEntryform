@@ -14,21 +14,23 @@ namespace dataEntryform
 {
     public partial class edit_delete_form : Form
     {
+        //creating objects
         registerInfoEntities registerInfoEntities = new registerInfoEntities();
         infoTable infoTable = new infoTable(); 
-
 
         public edit_delete_form()
         {
             InitializeComponent();
         }
 
+        //function overloading
         public edit_delete_form(infoTable edit_form)
         {
             InitializeComponent();
             form_filled(edit_form);
         }
 
+        //Placing values into edit delete form textboxes
         private void form_filled(infoTable edit_form)
         {
             edtb_name.Text = edit_form.full_name;
@@ -39,13 +41,16 @@ namespace dataEntryform
 
         private void edbt_save_Click(object sender, EventArgs e)
         {
+            //getting values or error msg
             var new_update = registerInfoEntities.infoTables.FirstOrDefault(q=> q.full_name == edtb_name.Text);
 
+            //placing new edited values into the table
             new_update.full_name = edtb_name.Text;
             new_update.address = edtb_address.Text;
             new_update.email = edtb_email.Text;
             new_update.mobile_no = Convert.ToDecimal(edtb_mobileno.Text);
 
+            //saving the changes
             registerInfoEntities.SaveChanges();
             MessageBox.Show("Changed sucessfully!");
         }
